@@ -6,7 +6,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-full p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
       <div className="text-center max-w-sm">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent mb-2 animate-[fade-in_0.6s_ease-out]">
+        <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent [.no-gradient_&]:text-primary mb-2 animate-[fade-in_0.6s_ease-out]">
           Soc Ops
         </h1>
         <p className="text-lg text-gray-600 mb-8 animate-[fade-in_0.6s_ease-out_0.2s_backwards]">

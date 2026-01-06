@@ -28,7 +28,7 @@ export function BingoSquare({ square, isWinning, onClick }: BingoSquareProps) {
     >
       <span className="wrap-break-word hyphens-auto">{square.text}</span>
       {square.isMarked && !square.isFreeSpace && (
-        <span className="absolute top-1 right-1 text-green-600 text-base font-bold animate-[bounce_0.3s_ease-out]">✓</span>
+        <span className="absolute top-1 right-1 text-green-600 text-base font-bold animate-[bounce_0.3s_ease-out]" aria-label="Marked">✓</span>
       )}
     </button>
   );
