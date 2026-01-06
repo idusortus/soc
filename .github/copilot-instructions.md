@@ -27,8 +27,16 @@
 - **Grid layout:** Tailwind `grid grid-cols-5` for the 5×5 board.
 
 ### Styling (Tailwind v4)
-- **Theme variables** in `src/index.css`: `--color-accent`, `--color-marked`, `--color-marked-border`, `--color-bingo`.
-- **Dynamic classes:** `bg-marked`, `bg-amber-200` for winning squares. Use `text-xs` for compact mobile text.
+- **Theme configuration:** Define design tokens in `src/index.css` using `@theme` directive with CSS variables (e.g., `--color-accent`, `--font-display`, `--breakpoint-lg`).
+- **Native opacity:** Use `/number` syntax for transparency (e.g., `bg-accent/50`, `text-gray-900/75`).
+- **Container queries:** Use `@container` for component-responsive styling (e.g., `@container`, `@sm:grid-cols-2`).
+- **Arbitrary CSS variables:** Reference custom properties directly (e.g., `w-[--sidebar-width]`, `fill-[--icon-color]`).
+- **Advanced utilities:**
+  - 3D transforms: `rotate-x-45`, `rotate-y-90`, `perspective-1000`
+  - Gradients: `bg-gradient-radial`, `bg-gradient-conic`
+  - Variants: `not-*` for inverse states (e.g., `not-hover:opacity-100`)
+  - Color spaces: Modern OKLCH colors for vibrant, perceptually uniform palettes
+- **Multi-theme support:** Use `@theme inline` with CSS variables at `:root` for runtime theme switching.
 - **Mobile-first:** `min-h-[60px]` squares, `max-w-md` board, tap highlight disabled.
 
 ## Development Workflow
@@ -63,3 +71,57 @@ npm run test     # Vitest with jsdom (tests in *.test.ts files)
 **Modify win conditions:** Edit `getWinningLines()` in `bingoLogic.ts` (e.g., add corner win patterns).
 
 **Styling:** Extend `@theme` in `src/index.css` for custom colors, or use Tailwind utilities directly in components.
+
+## Tailwind v4 Best Practices
+
+### @theme Configuration Pattern
+```css
+@theme {
+  /* Semantic color tokens using OKLCH for vibrant colors */
+  --color-primary: oklch(0.55 0.21 258);
+  --color-surface: oklch(0.98 0.01 264);
+  
+  /* Typography */
+  --font-display: "Space Grotesk", sans-serif;
+  
+  /* Spacing (generates w-17, p-17, etc.) */
+  --spacing: 0.25rem;
+  
+  /* Custom breakpoints */
+  --breakpoint-tablet: 640px;
+}
+```
+
+### Native Opacity (v4 Feature)
+- Use `/number` for transparency: `bg-primary/50`, `text-accent/75`
+- Works with all colors, including arbitrary values: `bg-[#3b82f6]/30`
+
+### Container Queries (Built-in v4)
+```html
+<div class="@container">
+  <div class="grid @sm:grid-cols-2 @lg:grid-cols-3">
+    <!-- Responsive to container, not viewport -->
+  </div>
+</div>
+```
+
+### Advanced Features
+- **3D transforms:** `rotate-x-45 rotate-y-90 perspective-1000` for card flips and depth effects
+- **Gradient utilities:** `bg-gradient-radial from-blue-500 to-purple-600` for modern backgrounds
+- **Not-variant:** `not-hover:opacity-100` styles when condition is false
+- **Arbitrary CSS vars:** `w-[--custom-width] text-[--brand-color]` directly reference CSS variables
+
+### Multi-theme Support
+```css
+@theme inline {
+  --color-primary: var(--primary);
+}
+
+:root { --primary: #3b82f6; }
+.dark { --primary: #60a5fa; }
+```
+
+### Performance Tips
+- Use CSS-first configuration (no `tailwind.config.js` needed)
+- Leverage automatic content detection
+- Modern CSS features (cascade layers, color-mix) are built-in
