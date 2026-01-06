@@ -52,10 +52,10 @@ export function generateBoard(): BingoSquareData[] {
 /**
  * Toggle a square's marked state
  */
-export function toggleSquare(board: BingoSquareData[], squareId: number): BingoSquareData[] {
+export function toggleSquare(board: BingoSquareData[], squareId: number, personName?: string): BingoSquareData[] {
   return board.map((square) =>
     square.id === squareId && !square.isFreeSpace
-      ? { ...square, isMarked: !square.isMarked }
+      ? { ...square, isMarked: !square.isMarked, personName: square.isMarked ? undefined : personName }
       : square
   );
 }

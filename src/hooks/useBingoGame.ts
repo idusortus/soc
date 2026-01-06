@@ -13,11 +13,14 @@ export interface BingoGameState {
   winningLine: BingoLine | null;
   winningSquareIds: Set<number>;
   showBingoModal: boolean;
+  pendingSquareId: number | null;
 }
 
 export interface BingoGameActions {
   startGame: () => void;
   handleSquareClick: (squareId: number) => void;
+  handleNameSubmit: (name: string) => void;
+  cancelNameInput: () => void;
   resetGame: () => void;
   dismissModal: () => void;
 }
@@ -150,6 +153,7 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
     () => loadedState?.winningLine || null
   );
   const [showBingoModal, setShowBingoModal] = useState(false);
+  const [pendingSquareId, setPendingSquareId] = useState<number | null>(null);
 
   const winningSquareIds = useMemo(
     () => getWinningSquareIds(winningLine),
@@ -168,13 +172,34 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
   }, []);
 
   const handleSquareClick = useCallback((squareId: number) => {
+    const square = board[squareId];
+    
+    // If square is already marked, unmark it immediately
+    if (square.isMarked) {
+      setBoard((currentBoard) => {
+        return toggleSquare(currentBoard, squareId);
+      });
+      
+      // Haptic feedback
+      if ('vibrate' in navigator) {
+        navigator.vibrate(50);
+      }
+      return;
+    }
+    
+    // If unmarked, show name input modal
+    setPendingSquareId(squareId);
+  }, [board]);
+
+  const handleNameSubmit = useCallback((name: string) => {
+    if (pendingSquareId === null) return;
+    
     setBoard((currentBoard) => {
-      const newBoard = toggleSquare(currentBoard, squareId);
+      const newBoard = toggleSquare(currentBoard, pendingSquareId, name);
       
       // Check for bingo after toggling
       const bingo = checkBingo(newBoard);
       if (bingo && !winningLine) {
-        // Schedule state updates to avoid synchronous setState in effect
         queueMicrotask(() => {
           setWinningLine(bingo);
           setGameState('bingo');
@@ -184,7 +209,18 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
       
       return newBoard;
     });
-  }, [winningLine]);
+    
+    setPendingSquareId(null);
+    
+    // Haptic feedback
+    if ('vibrate' in navigator) {
+      navigator.vibrate(50);
+    }
+  }, [pendingSquareId, winningLine]);
+
+  const cancelNameInput = useCallback(() => {
+    setPendingSquareId(null);
+  }, []);
 
   const resetGame = useCallback(() => {
     setGameState('start');
@@ -203,8 +239,11 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
     winningLine,
     winningSquareIds,
     showBingoModal,
+    pendingSquareId,
     startGame,
     handleSquareClick,
+    handleNameSubmit,
+    cancelNameInput,
     resetGame,
     dismissModal,
   };

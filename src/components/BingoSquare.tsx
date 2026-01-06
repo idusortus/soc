@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { BingoSquareData } from '../types';
 
 interface BingoSquareProps {
@@ -6,7 +7,7 @@ interface BingoSquareProps {
   onClick: () => void;
 }
 
-export function BingoSquare({ square, isWinning, onClick }: BingoSquareProps) {
+export const BingoSquare = memo(function BingoSquare({ square, isWinning, onClick }: BingoSquareProps) {
   const baseClasses =
     'relative flex items-center justify-center p-1 text-center border border-gray-300 rounded transition-all duration-150 select-none min-h-[60px] text-xs leading-tight';
 
@@ -28,8 +29,15 @@ export function BingoSquare({ square, isWinning, onClick }: BingoSquareProps) {
     >
       <span className="wrap-break-word hyphens-auto">{square.text}</span>
       {square.isMarked && !square.isFreeSpace && (
-        <span className="absolute top-0.5 right-0.5 text-green-600 text-xs">✓</span>
+        <>
+          <span className="absolute top-0.5 right-0.5 text-green-600 text-xs">✓</span>
+          {square.personName && (
+            <span className="absolute bottom-0.5 left-0.5 right-0.5 text-green-700 text-[10px] font-medium truncate">
+              {square.personName}
+            </span>
+          )}
+        </>
       )}
     </button>
   );
-}
+});

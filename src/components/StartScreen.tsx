@@ -12,9 +12,10 @@ export function StartScreen({ onStart }: StartScreenProps) {
         <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-8">
           <h2 className="font-semibold text-gray-800 mb-3">How to play</h2>
           <ul className="text-left text-gray-600 text-sm space-y-2">
-            <li>• Find people who match the questions</li>
-            <li>• Tap a square when you find a match</li>
-            <li>• Get 5 in a row to win!</li>
+            <li>• Talk to others and find people who match each square</li>
+            <li>• Tap a square when you meet someone who matches</li>
+            <li>• Get 5 in a row (any direction) to win!</li>
+            <li>• Center square is a FREE SPACE</li>
           </ul>
         </div>
 

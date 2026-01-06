@@ -1,37 +1,18 @@
-import { useBingoGame } from './hooks/useBingoGame';
-import { StartScreen } from './components/StartScreen';
-import { GameScreen } from './components/GameScreen';
-import { BingoModal } from './components/BingoModal';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HomePage } from './pages/HomePage';
+import { BingoPage } from './pages/BingoPage';
+import { TruthsPage } from './pages/TruthsPage';
 
 function App() {
-  const {
-    gameState,
-    board,
-    winningSquareIds,
-    showBingoModal,
-    startGame,
-    handleSquareClick,
-    resetGame,
-    dismissModal,
-  } = useBingoGame();
-
-  if (gameState === 'start') {
-    return <StartScreen onStart={startGame} />;
-  }
-
   return (
-    <>
-      <GameScreen
-        board={board}
-        winningSquareIds={winningSquareIds}
-        hasBingo={gameState === 'bingo'}
-        onSquareClick={handleSquareClick}
-        onReset={resetGame}
-      />
-      {showBingoModal && (
-        <BingoModal onDismiss={dismissModal} />
-      )}
-    </>
+    <BrowserRouter basename="/soc">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/bingo" element={<BingoPage />} />
+        <Route path="/truths" element={<TruthsPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
