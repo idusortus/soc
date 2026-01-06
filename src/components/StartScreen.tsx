@@ -16,18 +16,10 @@ export function StartScreen({ onStart }: StartScreenProps) {
         <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-8 animate-[fade-in_0.6s_ease-out_0.4s_backwards] transition-transform hover:scale-[1.02]">
           <h2 className="font-semibold text-gray-800 mb-3">How to play</h2>
           <ul className="text-left text-gray-600 text-sm space-y-2">
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">•</span>
-              <span>Find people who match the questions</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">•</span>
-              <span>Tap a square when you find a match</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">•</span>
-              <span>Get 5 in a row to win!</span>
-            </li>
+            <li>• Talk to others and find people who match each square</li>
+            <li>• Tap a square when you meet someone who matches</li>
+            <li>• Get 5 in a row (any direction) to win!</li>
+            <li>• Center square is a FREE SPACE</li>
           </ul>
         </div>
 
